@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import (
     rate_list,
     contact_list,
@@ -6,5 +7,5 @@ from .views import (
 
 urlpatterns = [
     path('rate_list/', rate_list),
-
+    path('contact_list/', contact_list),
 ]
