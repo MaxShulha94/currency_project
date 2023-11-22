@@ -8,4 +8,5 @@ from .views import (
 urlpatterns = [
     path('rate_list/', rate_list),
     path('contact_list/', contact_list),
+
 ]
