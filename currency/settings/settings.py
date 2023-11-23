@@ -36,6 +36,9 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+EXTERNAL_APPS = [
+    'django_extensions',
+]
 INTERNAL_APPS = [
     'currency.apps.CurrencyConfig',
 ]
@@ -57,7 +60,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
