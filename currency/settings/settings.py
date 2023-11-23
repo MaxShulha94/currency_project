@@ -39,8 +39,10 @@ DJANGO_APPS = [
 INTERNAL_APPS = [
     'currency.apps.CurrencyConfig',
 ]
-
-INSTALLED_APPS = DJANGO_APPS + INTERNAL_APPS
+EXTERNAL_APPS = [
+    'django-extensions'
+]
+INSTALLED_APPS = DJANGO_APPS + INTERNAL_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,8 +59,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
