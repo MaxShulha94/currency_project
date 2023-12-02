@@ -4,17 +4,22 @@
     Contacts list
 {% endblock title %}
 {% block content %}
+    <a href="/contact_create/">Create contact</a>
 <table>
       <tr>
         <th>ID</th>
         <th>Mail</th>
         <th>Subject</th>
       </tr>
-{% for contact in contacts %}
+{% for contactus in contactus_list %}
       <tr>
-        <td>{{ contact.id }}</td>
-        <td>{{ contact.email_from }}</td>
-        <td>{{ contact.subject }}</td>
+        <td>{{ contactus.id }}</td>
+        <td>{{ contactus.email_from }}</td>
+        <td>{{ contactus.subject }}</td>
+          <td><a href="{% url 'contact-update' contactus.id %}">Edit</a></td>
+          <td><a href="{% url 'contact-delete' contactus.id %}">Delete</a></td>
+          <td><a href="{% url 'contact-retrieve' contactus.id %}">Info</a></td>
+        <br>
       </tr>
 {% endfor %}
 </table>

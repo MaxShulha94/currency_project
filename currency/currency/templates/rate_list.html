@@ -13,16 +13,16 @@
         <th>Sell</th>
         <th>Created</th>
       </tr>
-{% for rate in rates %}
+{% for rate in rate_list %}
 
       <tr>
         <td>{{ rate.id }}</td>
         <td>{{ rate.buy }}</td>
         <td>{{ rate.sell }}</td>
         <td>{{ rate.created }}</td>
-          <td><a href="/rate_update/{{ rate.id }}/">Edit</a></td>
-          <td><a href="/rate_delete/{{ rate.id }}/">Delete</a></td>
-          <td><a href="/rate_retrieve/{{ rate.id }}/">Info</a></td>
+          <td><a href="{% url 'rate-update' rate.id %}">Edit</a></td>
+          <td><a href="{% url 'rate-delete' rate.id %}">Delete</a></td>
+          <td><a href="{% url 'rate-retrieve' rate.id %}">Info</a></td>
         <br>
       </tr>
 {% endfor %}

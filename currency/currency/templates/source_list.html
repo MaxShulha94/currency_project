@@ -11,14 +11,14 @@
         <th>ID</th>
         <th>Name</th>
       </tr>
-{% for source in sources %}
+{% for source in source_list %}
 
       <tr>
         <td>{{ source.id }}</td>
         <td>{{ source.name }}</td>
-          <td><a href="/source_update/{{ source.id }}/">Edit</a></td>
-          <td><a href="/source_delete/{{ source.id }}/">Delete</a></td>
-          <td><a href="/source_retrieve/{{ source.id }}/">Info</a></td>
+          <td><a href="{% url 'source-update' soure.id %}">Edit</a></td>
+          <td><a href="{% url 'source-delete' soure.id %}">Delete</a></td>
+          <td><a href="{% url 'source-retrieve' soure.id %}">Info</a></td>
         <br>
       </tr>
 
