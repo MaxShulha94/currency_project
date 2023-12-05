@@ -4,7 +4,7 @@
     Sources list
 {% endblock title %}
 {% block content %}
-        <a href="/source_create/">Create source</a>
+        <a href="{% url 'source-create' %}">Create source</a>
 
 <table>
       <tr>
@@ -16,9 +16,9 @@
       <tr>
         <td>{{ source.id }}</td>
         <td>{{ source.name }}</td>
-          <td><a href="{% url 'source-update' soure.id %}">Edit</a></td>
-          <td><a href="{% url 'source-delete' soure.id %}">Delete</a></td>
-          <td><a href="{% url 'source-retrieve' soure.id %}">Info</a></td>
+          <td><a href="{% url 'source-update' source.id %}">Edit</a></td>
+          <td><a href="{% url 'source-delete' source.id %}">Delete</a></td>
+          <td><a href="{% url 'source-retrieve' source.id %}">Info</a></td>
         <br>
       </tr>
 
