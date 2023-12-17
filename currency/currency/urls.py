@@ -16,7 +16,6 @@ from .views import (
     SourceUpdateView,
     SourceDeleteView,
     SourceDetailsView,
-    IndexView
 )
 
 urlpatterns = [
@@ -35,6 +34,4 @@ urlpatterns = [
     path('source_update/<int:pk>/', SourceUpdateView.as_view(), name='source-update'),
     path('source_delete/<int:pk>/', SourceDeleteView.as_view(), name='source-delete'),
     path('source_retrieve/<int:pk>/', SourceDetailsView.as_view(), name='source-retrieve'),
-
-    path('', IndexView.as_view()),
 ]

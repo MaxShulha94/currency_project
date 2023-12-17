@@ -21,6 +21,8 @@ class ContactUsForm(forms.ModelForm):
             'email_from',
             'subject',
             'message',
+            'name',
+            'body',
         )
 
 

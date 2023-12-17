@@ -1,8 +1,9 @@
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
 from .forms import RateForm, ContactUsForm, SourceForm
-from .models import Rate, ContactUs, Source
+from .models import Rate, ContactUs, Source, RequestResponseLog
 
 
 class RateListView(ListView):
@@ -41,8 +42,28 @@ class ContactUsListView(ListView):
 
 class ContactUsCreateView(CreateView):
     form_class = ContactUsForm
-    success_url = reverse_lazy('contact-list')
+    success_url = reverse_lazy('index')
     template_name = 'contact_create.html'
+
+    def form_valid(self, form):
+        from django.conf import settings
+        recipient = 'settings.EMAIL_HOST_USER'
+        subject = 'User contact us'
+        body = f'''
+        Name: {form.cleaned_data['name']}
+        Email: {form.cleaned_data['email_from']}
+        Subject: {form.cleaned_data['subject']}
+        Message: {form.cleaned_data['message']}
+        Body: {form.cleaned_data['body']}
+        '''
+        send_mail(
+            subject,
+            body,
+            recipient,
+            ['recipient'],
+            fail_silently=False,
+        )
+        return super().form_valid(form)
 
 
 class ContactUsUpdateView(UpdateView):
@@ -94,3 +115,4 @@ class SourceDetailsView(DetailView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
