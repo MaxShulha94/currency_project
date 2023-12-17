@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
 from .forms import RateForm, ContactUsForm, SourceForm
-from .models import Rate, ContactUs, Source, RequestResponseLog
+from .models import Rate, ContactUs, Source
 
 
 class RateListView(ListView):
@@ -115,4 +115,3 @@ class SourceDetailsView(DetailView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
-

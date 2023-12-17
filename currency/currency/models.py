@@ -7,7 +7,8 @@ class Rate(models.Model):
     buy = models.DecimalField(_('Buy'), max_digits=6, decimal_places=2)
     sell = models.DecimalField(_('Sell'), max_digits=6, decimal_places=2)
     created = models.DateTimeField(_('Created'), auto_now_add=True)
-    currency_type = models.SmallIntegerField(_('Currency type'), choices=CurrencyTypeChoices.choices, default=CurrencyTypeChoices.UAH)
+    currency_type = models.SmallIntegerField(
+        _('Currency type'), choices=CurrencyTypeChoices.choices, default=CurrencyTypeChoices.UAH)
     source = models.CharField(_('Source'), max_length=255)
 
     class Meta:
@@ -24,7 +25,6 @@ class ContactUs(models.Model):
     message = models.CharField(_('Message'), max_length=255)
     name = models.CharField(_('Name'), max_length=64, default='Unknown')
     body = models.CharField(_('Body'), max_length=2048, blank=True)
-
 
     class Meta:
         verbose_name = 'Contact'

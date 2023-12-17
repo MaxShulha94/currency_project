@@ -1,6 +1,6 @@
 from time import time
-from currency.models import RequestResponseLog
 
+from currency.models import RequestResponseLog
 
 
 class RequestResponseTimeMiddleware:
@@ -8,11 +8,9 @@ class RequestResponseTimeMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         start_time = time()
         response = self.get_response(request)
         end_time = time()
-        print(f'{end_time - start_time}, sec')
         processing_time = end_time - start_time
         log_entry = RequestResponseLog(
             time=processing_time,
@@ -21,4 +19,3 @@ class RequestResponseTimeMiddleware:
         )
         log_entry.save()
         return response
-
