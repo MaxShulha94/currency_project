@@ -1,4 +1,8 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
@@ -17,22 +21,38 @@ class RateCreateView(CreateView):
     template_name = 'rate_create.html'
 
 
-class RateUpdateView(UpdateView):
+class RateUpdateView(UserPassesTestMixin, UpdateView):
     model = Rate
     form_class = RateForm
     success_url = reverse_lazy('rate-list')
     template_name = 'rate_update.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class RateDeleteView(DeleteView):
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You have no permission for this operation.")
+
+
+class RateDeleteView(UserPassesTestMixin, DeleteView):
     model = Rate
     success_url = reverse_lazy('rate-list')
     template_name = 'rate_delete.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class RateDetailsView(DetailView):
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You have no permission for this operation.")
+
+
+class RateDetailsView(UserPassesTestMixin, DetailView):
     model = Rate
     template_name = 'rate_retrieve.html'
+    login_url = reverse_lazy('login')
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
 class ContactUsListView(ListView):
@@ -46,7 +66,6 @@ class ContactUsCreateView(CreateView):
     template_name = 'contact_create.html'
 
     def form_valid(self, form):
-        from django.conf import settings
         recipient = 'settings.EMAIL_HOST_USER'
         subject = 'User contact us'
         body = f'''
@@ -115,3 +134,17 @@ class SourceDetailsView(DetailView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+
+class ProfileView(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    template_name = 'profile.html'
+    success_url = reverse_lazy('index')
+    fields = (
+        'first_name',
+        'last_name',
+    )
+
+    def get_object(self, queryset=None):
+        qs = self.get_queryset()
+        return qs.get(id=self.request.user.id)

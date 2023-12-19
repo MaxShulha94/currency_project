@@ -20,9 +20,13 @@
         <td>{{ rate.buy }}</td>
         <td>{{ rate.sell }}</td>
         <td>{{ rate.get_currency_type_display }}</td>
+          {% if request.user.is_superuser %}
           <td><a href="{% url 'rate-update' rate.id %}">Edit</a></td>
           <td><a href="{% url 'rate-delete' rate.id %}">Delete</a></td>
+          {% endif %}
+          {% if request.user.is_authenticated %}
           <td><a href="{% url 'rate-retrieve' rate.id %}">Info</a></td>
+          {% endif %}
         <br>
       </tr>
 {% endfor %}
