@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-h#j059#_9n9-!i&ngfvvcnbdg^yzam&dtahv0n@2-f9mluxc#1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -44,6 +44,7 @@ DJANGO_APPS = [
 ]
 INTERNAL_APPS = [
     'currency.apps.CurrencyConfig',
+    'account.apps.AccountConfig'
 ]
 EXTERNAL_APPS = [
     'django_extensions',
@@ -113,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'account.User'
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -134,16 +136,18 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = 'maxshulga94@gmail.com'
-# EMAIL_HOST_PASSWORD = '**** **** **** ****'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'maxshulga94@gmail.com'
+EMAIL_HOST_PASSWORD = 'jfgo lqiq lzyh txlc'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
 LOGIN_URL = reverse_lazy('index')
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
+HTTP_METHOD = 'http'
+DOMAIN = '0.0.0.0:8000'
 

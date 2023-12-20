@@ -1,5 +1,3 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
@@ -134,17 +132,3 @@ class SourceDetailsView(DetailView):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
-
-
-class ProfileView(LoginRequiredMixin, UpdateView):
-    model = get_user_model()
-    template_name = 'profile.html'
-    success_url = reverse_lazy('index')
-    fields = (
-        'first_name',
-        'last_name',
-    )
-
-    def get_object(self, queryset=None):
-        qs = self.get_queryset()
-        return qs.get(id=self.request.user.id)
