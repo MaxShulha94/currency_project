@@ -1,3 +1,6 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.mail import send_mail
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
@@ -16,22 +19,38 @@ class RateCreateView(CreateView):
     template_name = 'rate_create.html'
 
 
-class RateUpdateView(UpdateView):
+class RateUpdateView(UserPassesTestMixin, UpdateView):
     model = Rate
     form_class = RateForm
     success_url = reverse_lazy('rate-list')
     template_name = 'rate_update.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class RateDeleteView(DeleteView):
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You have no permission for this operation.")
+
+
+class RateDeleteView(UserPassesTestMixin, DeleteView):
     model = Rate
     success_url = reverse_lazy('rate-list')
     template_name = 'rate_delete.html'
 
+    def test_func(self):
+        return self.request.user.is_superuser
 
-class RateDetailsView(DetailView):
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You have no permission for this operation.")
+
+
+class RateDetailsView(UserPassesTestMixin, DetailView):
     model = Rate
     template_name = 'rate_retrieve.html'
+    login_url = reverse_lazy('login')
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
 class ContactUsListView(ListView):
@@ -41,8 +60,27 @@ class ContactUsListView(ListView):
 
 class ContactUsCreateView(CreateView):
     form_class = ContactUsForm
-    success_url = reverse_lazy('contact-list')
+    success_url = reverse_lazy('index')
     template_name = 'contact_create.html'
+
+    def form_valid(self, form):
+        recipient = 'settings.EMAIL_HOST_USER'
+        subject = 'User contact us'
+        body = f'''
+        Name: {form.cleaned_data['name']}
+        Email: {form.cleaned_data['email_from']}
+        Subject: {form.cleaned_data['subject']}
+        Message: {form.cleaned_data['message']}
+        Body: {form.cleaned_data['body']}
+        '''
+        send_mail(
+            subject,
+            body,
+            recipient,
+            ['recipient'],
+            fail_silently=False,
+        )
+        return super().form_valid(form)
 
 
 class ContactUsUpdateView(UpdateView):
