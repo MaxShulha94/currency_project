@@ -142,7 +142,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'maxshulga94@gmail.com'
-EMAIL_HOST_PASSWORD = 'jfgo lqiq lzyh txlc'
+EMAIL_HOST_PASSWORD = '**** **** **** ****'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
 LOGIN_URL = reverse_lazy('index')
