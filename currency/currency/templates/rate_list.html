@@ -12,6 +12,8 @@
         <th>Buy</th>
         <th>Sell</th>
         <th>Type</th>
+        <th>Source</th>
+
       </tr>
 {% for rate in rate_list %}
 
@@ -20,6 +22,7 @@
         <td>{{ rate.buy }}</td>
         <td>{{ rate.sell }}</td>
         <td>{{ rate.get_currency_type_display }}</td>
+        <td>{{ rate.source }}</td>
           {% if request.user.is_superuser %}
           <td><a href="{% url 'rate-update' rate.id %}">Edit</a></td>
           <td><a href="{% url 'rate-delete' rate.id %}">Delete</a></td>

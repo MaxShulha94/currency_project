@@ -9,7 +9,7 @@ class Rate(models.Model):
     created = models.DateTimeField(_('Created'), auto_now_add=True)
     currency_type = models.SmallIntegerField(
         _('Currency type'), choices=CurrencyTypeChoices.choices, default=CurrencyTypeChoices.UAH)
-    source = models.CharField(_('Source'), max_length=255)
+    source = models.ForeignKey('currency.Source', on_delete=models.CASCADE, related_name='rates')
 
     class Meta:
         verbose_name = 'Rate'
