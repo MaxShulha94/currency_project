@@ -1,28 +1,51 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
     Sources list
 {% endblock title %}
+
 {% block content %}
-        <a href="{% url 'source-create' %}">Create source</a>
 
-<table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-      </tr>
-{% for source in source_list %}
+    <a href="{% url 'source-create' %}">Create source</a><br>
 
-      <tr>
-        <td>{{ source.id }}</td>
-        <td>{{ source.name }}</td>
-          <td><a href="{% url 'source-update' source.id %}">Edit</a></td>
-          <td><a href="{% url 'source-delete' source.id %}">Delete</a></td>
-          <td><a href="{% url 'source-retrieve' source.id %}">Info</a></td>
-        <br>
-      </tr>
 
-{% endfor %}
-</table>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Logo</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for source in source_list %}
+                <tr>
+                    <th scope="row">{{ source.id }}</th>
+                    <td>{{ source.name }}</td>
+                    <td><img style="height: 80px; width: 200px" src="{{ source.logo_url }}" alt="logo"></td>
+
+                    <td>
+
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                               aria-expanded="false">
+                                Actions
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'source-update' source.id %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'source-delete' source.id %}">Delete</a>
+                                <a class="dropdown-item" href="{% url 'source-retrieve' source.id %}">Info</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock content %}

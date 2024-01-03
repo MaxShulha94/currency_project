@@ -3,25 +3,46 @@
 {% block title %}
     Contacts list
 {% endblock title %}
+
 {% block content %}
-    <a href="{% url 'contact-create' %}">Create contact</a>
-<table>
-      <tr>
-        <th>ID</th>
-        <th>Mail</th>
-        <th>Subject</th>
-      </tr>
-{% for contactus in contactus_list %}
-      <tr>
-        <td>{{ contactus.id }}</td>
-        <td>{{ contactus.email_from }}</td>
-        <td>{{ contactus.subject }}</td>
-          <td><a href="{% url 'contact-update' contactus.id %}">Edit</a></td>
-          <td><a href="{% url 'contact-delete' contactus.id %}">Delete</a></td>
-          <td><a href="{% url 'contact-retrieve' contactus.id %}">Info</a></td>
-        <br>
-      </tr>
-{% endfor %}
-</table>
+
+    <a href="{% url 'contact-create' %}">Create contact</a><br>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Mail</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contactus in contactus_list %}
+                <tr>
+                    <th scope="row">{{ contactus.id }}</th>
+                    <td>{{ contactus.email_from }}</td>
+                    <td>{{ contactus.subject }}</td>
+                    <td>
+
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                               aria-expanded="false">
+                                Actions
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'contact-update' contactus.id %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'contact-delete' contactus.id %}">Delete</a>
+                                <a class="dropdown-item" href="{% url 'contact-retrieve' contactus.id %}">Info</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock content %}

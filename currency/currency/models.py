@@ -1,4 +1,5 @@
 from django.db import models
+from django.templatetags.static import static
 from django.utils.translation import gettext_lazy as _
 from .choices import CurrencyTypeChoices
 
@@ -34,9 +35,14 @@ class ContactUs(models.Model):
         return f'Subject: {self.subject}, Mail: {self.email_from}'
 
 
+def source_directory_path(instance, filename):
+    return f'logos/source_{instance.id}/{filename}'
+
+
 class Source(models.Model):
     source_url = models.CharField(_('Source URL'), max_length=255)
     name = models.CharField(_('Name'), max_length=64)
+    logo = models.FileField(_('Logo'), default=None, blank=True, null=True, upload_to=source_directory_path)
 
     class Meta:
         verbose_name = 'Source'
@@ -44,6 +50,12 @@ class Source(models.Model):
 
     def __str__(self):
         return f'Source: {self.name}'
+
+    @property
+    def logo_url(self) -> str:
+        if self.logo:
+            return self.logo.url
+        return static('privatlogo.png')
 
 
 class RequestResponseLog(models.Model):
