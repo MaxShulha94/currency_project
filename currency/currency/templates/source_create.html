@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}Create Source{% endblock title %}
 
 {% block content %}
-    Create Source  Form
-    <form method="post">
-        {% csrf_token %}
-    {{ form.as_p }}
+    Create Source
+        <img style="height: 100px; width: 100px" src="{{ source.logo_url }}" alt="logo">
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}{{ form|crispy }}
     <button type="submit">Submit</button>
     </form>
 

@@ -11,6 +11,7 @@ class RateForm(forms.ModelForm):
             'sell',
             'currency_type',
             'source',
+
         )
 
 
@@ -31,5 +32,6 @@ class SourceForm(forms.ModelForm):
         model = Source
         fields = (
             'source_url',
-            'name'
+            'name',
+            'logo',
         )

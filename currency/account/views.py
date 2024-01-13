@@ -14,6 +14,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     fields = (
         'first_name',
         'last_name',
+        'avatar',
     )
 
     def get_object(self, queryset=None):
@@ -27,8 +28,10 @@ class UserSignUpView(CreateView):
     success_url = reverse_lazy('index')
     form_class = UserSignUpForm
 
+
 class UserActivateView(RedirectView):
     pattern_name = 'login'
+
     def get_redirect_url(self, *args, **kwargs):
         username = kwargs.pop('username')
         user = User.objects.filter(username=username).only('id').first()

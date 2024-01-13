@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
@@ -47,6 +47,8 @@ INTERNAL_APPS = [
     'account.apps.AccountConfig'
 ]
 EXTERNAL_APPS = [
+    'crispy_forms',
+    'crispy_bootstrap4',
     'django_extensions',
     'debug_toolbar'
 ]
@@ -130,6 +132,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# STORAGES = {
+#     'default': {
+#         'BACKEND': 'storages.backends.s3.S3Storage',
+#         'OPTIONS': {
+#             'access_key': '<KEY>',
+#             'secret_key': '<KEY>',
+#             'bucket_name': 'media',
+#             'query_string_auth': False,
+#             'region_name': '',
+#             'default_acl': 'public-read',
+#             'endpoint_url': 'https://${region_name}.digitaloceanspaces.com',
+#         },
+#     },
+#     'staticfiles': {
+#         'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'
+#     }
+# }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -151,3 +177,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('index')
 HTTP_METHOD = 'http'
 DOMAIN = '0.0.0.0:8000'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
