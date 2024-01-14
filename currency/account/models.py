@@ -23,13 +23,11 @@ class User(AbstractUser):
         verbose_name = _('User')
         verbose_name_plural = _('Users')
 
-
     @property
     def avatar_url(self) -> str:
         if self.avatar:
             return self.avatar.url
         return static('anon_user.jpg')
-
 
     def save(self, *args, **kwargs):
         if not self.pk:

@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 
-from .forms import RateForm, ContactUsForm, SourceForm
-from .models import Rate, ContactUs, Source
+from currency.forms import RateForm, ContactUsForm, SourceForm
+from currency.models import Rate, ContactUs, Source
+from currency.tasks import send_email_in_background
 
 
 class RateListView(ListView):
@@ -58,29 +58,34 @@ class ContactUsListView(ListView):
     template_name = 'contact_list.html'
 
 
+def _send_email(form):
+    subject = 'User contact us'
+    body = f'''
+    Name: {form.cleaned_data['name']}
+    Email: {form.cleaned_data['email_from']}
+    Subject: {form.cleaned_data['subject']}
+    Message: {form.cleaned_data['message']}
+    Body: {form.cleaned_data['body']}
+    '''
+    send_email_in_background.apply_async(
+            kwargs={
+                'subject': subject,
+                'body': body
+            }
+        )
+
+
 class ContactUsCreateView(CreateView):
     form_class = ContactUsForm
     success_url = reverse_lazy('index')
     template_name = 'contact_create.html'
 
     def form_valid(self, form):
-        recipient = 'settings.EMAIL_HOST_USER'
-        subject = 'User contact us'
-        body = f'''
-        Name: {form.cleaned_data['name']}
-        Email: {form.cleaned_data['email_from']}
-        Subject: {form.cleaned_data['subject']}
-        Message: {form.cleaned_data['message']}
-        Body: {form.cleaned_data['body']}
-        '''
-        send_mail(
-            subject,
-            body,
-            recipient,
-            ['recipient'],
-            fail_silently=False,
-        )
-        return super().form_valid(form)
+        redirect = super().form_valid(form)
+
+        _send_email(form)
+
+        return redirect
 
 
 class ContactUsUpdateView(UpdateView):
