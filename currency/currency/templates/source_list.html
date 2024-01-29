@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
-
-
+{% load crispy_forms_tags %}
 {% block title %}
     Sources list
 {% endblock title %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                {{ filter.form|crispy }}
+                <input type="submit" class="btn btn-primary" value="Submit"/>
+            </form>
+        </div>
+    </div>
 
     <a href="{% url 'source-create' %}">Create source</a><br>
 
@@ -21,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for source in source_list %}
+            {% for source in page_obj %}
                 <tr>
                     <th scope="row">{{ source.id }}</th>
                     <td>{{ source.name }}</td>
@@ -46,6 +53,11 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {% include 'includes/pagination.html' %}
+        </div>
     </div>
 
 {% endblock content %}

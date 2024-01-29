@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}
     Contacts list
 {% endblock title %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                {{ filter.form|crispy }}
+                <input type="submit" class="btn btn-primary" value="Submit"/>
+            </form>
+        </div>
+    </div>
 
     <a href="{% url 'contact-create' %}">Create contact</a><br>
 
@@ -19,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for contactus in contactus_list %}
+            {% for contactus in page_obj %}
                 <tr>
                     <th scope="row">{{ contactus.id }}</th>
                     <td>{{ contactus.email_from }}</td>
@@ -43,6 +51,11 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {% include 'includes/pagination.html' %}
+        </div>
     </div>
 
 {% endblock content %}

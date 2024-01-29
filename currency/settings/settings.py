@@ -51,7 +51,8 @@ EXTERNAL_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'django_extensions',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_filters',
 ]
 INSTALLED_APPS = DJANGO_APPS + INTERNAL_APPS + EXTERNAL_APPS
 

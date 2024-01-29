@@ -1,48 +1,19 @@
-{#{% extends 'base.html' %}#}
-{##}
-{#{% block title %}#}
-{#    Rates list#}
-{#{% endblock title %}#}
-{#{% block content %}#}
-{#        <a href="{% url 'rate-create' %}">Create rate</a>#}
-{##}
-{#<table>#}
-{#      <tr>#}
-{#        <th>ID</th>#}
-{#        <th>Buy</th>#}
-{#        <th>Sell</th>#}
-{#        <th>Type</th>#}
-{#        <th>Source</th>#}
-{##}
-{#      </tr>#}
-{#{% for rate in rate_list %}#}
-{##}
-{#      <tr>#}
-{#        <td>{{ rate.id }}</td>#}
-{#        <td>{{ rate.buy }}</td>#}
-{#        <td>{{ rate.sell }}</td>#}
-{#        <td>{{ rate.get_currency_type_display }}</td>#}
-{#        <td>{{ rate.source }}</td>#}
-{#          {% if request.user.is_superuser %}#}
-{#          <td><a href="{% url 'rate-update' rate.id %}">Edit</a></td>#}
-{#          <td><a href="{% url 'rate-delete' rate.id %}">Delete</a></td>#}
-{#          {% endif %}#}
-{#          {% if request.user.is_authenticated %}#}
-{#          <td><a href="{% url 'rate-retrieve' rate.id %}">Info</a></td>#}
-{#          {% endif %}#}
-{#        <br>#}
-{#      </tr>#}
-{#{% endfor %}#}
-{#    </table>#}
-{##}
-{#{% endblock content %}#}
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}
     Rates List
 {% endblock title %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                {{ filter.form|crispy }}
+                <input type="submit" class="btn btn-primary" value="Submit"/>
+            </form>
+        </div>
+    </div>
+
 
     <a href="{% url 'rate-create' %}">Create rate</a><br>
 
@@ -59,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for rate in object_list %}
+            {% for rate in page_obj %}
                 <tr>
                     <th scope="row">{{ rate.id }}</th>
                     <td>{{ rate.buy }}</td>
@@ -74,7 +45,7 @@
                                 Actions
                             </a>
                             {% if request.user.is_superuser %}
-                            <div class="dropdown-menu">
+                                <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{% url 'rate-update' rate.id %}">Edit</a>
                                 <a class="dropdown-item" href="{% url 'rate-delete' rate.id %}">Delete</a>
                             {% endif %}
@@ -90,10 +61,11 @@
         </table>
     </div>
 
-{#    <div class="row">#}
-{#        <div class="col-lg-6 col-sm-12">Col 1</div>#}
-{#        <div class="col-lg-6 col-sm-12">Col 2</div>#}
-{#    </div>#}
+    <div class="row">
+        <div class="col-12">
+            {% include 'includes/pagination.html' %}
+        </div>
+    </div>
 
 {% endblock content %}
 
