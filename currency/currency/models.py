@@ -2,6 +2,7 @@ from django.db import models
 from django.templatetags.static import static
 from django.utils.translation import gettext_lazy as _
 from .choices import CurrencyTypeChoices
+from .constants import PRIVATBANK_CODE_NAME, MONOBANK_CODE_NAME
 
 
 class Rate(models.Model):
@@ -9,7 +10,7 @@ class Rate(models.Model):
     sell = models.DecimalField(_('Sell'), max_digits=6, decimal_places=2)
     created = models.DateTimeField(_('Created'), auto_now_add=True)
     currency_type = models.SmallIntegerField(
-        _('Currency type'), choices=CurrencyTypeChoices.choices, default=CurrencyTypeChoices.UAH)
+        _('Currency type'), choices=CurrencyTypeChoices.choices, default=CurrencyTypeChoices.EUR)
     source = models.ForeignKey('currency.Source', on_delete=models.CASCADE, related_name='rates')
 
     class Meta:
@@ -42,6 +43,7 @@ def source_directory_path(instance, filename):
 class Source(models.Model):
     source_url = models.CharField(_('Source URL'), max_length=255)
     name = models.CharField(_('Name'), max_length=64)
+    code_name = models.CharField(_('Code Name'), max_length=64, unique=True)
     logo = models.FileField(_('Logo'), default=None, blank=True, null=True, upload_to=source_directory_path)
 
     class Meta:
@@ -55,7 +57,10 @@ class Source(models.Model):
     def logo_url(self) -> str:
         if self.logo:
             return self.logo.url
-        return static('privatlogo.png')
+        if self.name == 'PrivatBank' or self.code_name == PRIVATBANK_CODE_NAME:
+            return static('privatlogo.png')
+        elif self.name == 'MonoBank' or self.code_name == MONOBANK_CODE_NAME:
+            return static('monologo.jpeg')
 
 
 class RequestResponseLog(models.Model):

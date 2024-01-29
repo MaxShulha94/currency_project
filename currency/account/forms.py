@@ -1,9 +1,9 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import get_user_model
 from django.core.mail import send_mail
-from django.conf import settings
 from django.urls import reverse
-from django.contrib.auth.password_validation import validate_password
+
 User = get_user_model()
 
 
